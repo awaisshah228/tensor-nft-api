@@ -8,7 +8,7 @@ use actix_web::{
 use serde::{Deserialize, Serialize};
 // use solana_client::rpc_client::RpcClient;
 use crate::rpc;
-use solana_sdk::pubkey::Pubkey;
+use solana_sdk::{borsh1::try_from_slice_unchecked, pubkey::Pubkey};
 use std::fs::File;
 use std::str::FromStr;
 use utoipa::{IntoParams, ToSchema};
@@ -165,7 +165,7 @@ pub async fn fetch_metadata(mint_account: &str) -> Result<NFTMetadata> {
 
     println!("Accoutn data {:?}", account_data);
 
-    let metadata: Metadata = my_try_from_slice_unchecked(&account_data)?;
+    let metadata: Metadata = try_from_slice_unchecked(&account_data)?;
 
     let creators: Vec<JSONCreator> = metadata
         .data
