@@ -147,7 +147,6 @@ pub async fn get_nft_metadata(mint_account: Path<String>) -> impl Responder {
 }
 
 pub async fn fetch_metadata(mint_account: &str) -> Result<NFTMetadata> {
-    // let connection = RpcClient::new("https://flashtr-flash-885f.mainnet.rpcpool.com/11a75a74-fd8e-44cc-87f4-d84bb82d0983".to_string());
     let rpc_client = Arc::new(rpc::create_rpc_client(
         "https://api.mainnet-beta.solana.com".to_string(),
     ));
