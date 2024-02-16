@@ -22,6 +22,7 @@ use utoipa_swagger_ui::SwaggerUi;
 use crate::todo::{ErrorResponse, TodoStore};
 
 mod todo;
+mod rpc;
 
 const API_KEY_NAME: &str = "todo_apikey";
 const API_KEY: &str = "utoipa-rocks";
@@ -33,16 +34,14 @@ async fn main() -> Result<(), impl Error> {
     #[derive(OpenApi)]
     #[openapi(
         paths(
-            todo::get_todos,
-            todo::create_todo,
-            todo::delete_todo,
-            todo::get_todo_by_id,
-            todo::update_todo,
-            todo::search_todos,
-            todo::get_nft_by_id
+            /
+            todo::get_nft_by_id,
+            todo::get_nft_metadata
         ),
         components(
-            schemas(todo::Todo,todo::NFT, todo::TodoUpdateRequest, todo::ErrorResponse)
+            schemas(todo::NFT, 
+                 todo::NFTMetadata,
+                todo::ErrorResponse)
         ),
         tags(
             (name = "todo", description = "Todo management endpoints.")
@@ -83,6 +82,7 @@ async fn main() -> Result<(), impl Error> {
             // .service(RapiDoc::with_openapi("/api-docs/openapi2.json", openapi.clone()).path("/rapidoc"))
     })
     .bind((Ipv4Addr::UNSPECIFIED, 8080))?
+    .workers(1)
     .run()
     .await
 }
