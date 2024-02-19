@@ -14,7 +14,7 @@ use std::str::FromStr;
 use utoipa::{IntoParams, ToSchema};
 //use crate::rpc::RpcClient;
 use crate::rpc::rpc_client::RpcClient;
-use solana_sdk::borsh0_10::try_from_slice_unchecked;
+use solana_sdk::borsh0_10::try_from_slice_unchecked as try_uncheck;
 
 use spl_token_metadata::state::Metadata;
 
@@ -164,7 +164,7 @@ pub async fn fetch_metadata(mint_account: &str) -> Result<NFTMetadata> {
 
     println!("Accoutn data {:?}", account_data);
 
-    let metadata: Metadata = try_from_slice_unchecked(&account_data)?;
+    let metadata: Metadata = try_uncheck(&account_data)?;
 
     let creators: Vec<JSONCreator> = metadata
         .data
